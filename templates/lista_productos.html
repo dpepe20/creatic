@@ -6,8 +6,9 @@
 
 {% block contenido %}
 	<h1>lista de Productos</h1>
-
-	<a href="{% url 'agregar_producto' %}">Agregar producto</a>
+	{% if request.user.is_authenticated and request.user.is_superuser %}
+		<a href="{% url 'agregar_producto' %}">Agregar producto</a>		
+	{% endif %}
 	{% for x in lista %}
 		<p>
 			{{ forloop.counter }}
@@ -19,9 +20,12 @@
 				<img src="/media/{{ x.foto }}" width="60px">
 			{% endif %}
 			<a href="{% url 'ver_producto' id_prod=x.id   %}">Ver Producto</a>
-			<a href="{% url 'editar_producto' id_prod=x.id   %}">Editar Producto</a>
-			<a href="{% url 'eliminar_producto' id_prod=x.id   %}">Eliminar Producto</a>
-			<a href="{% url 'desactivar_producto' id_prod=x.id   %}">desactivar Producto</a>
+			{% if request.user.is_authenticated and request.user.is_superuser %}
+				<a href="{% url 'editar_producto' id_prod=x.id   %}">Editar Producto</a>
+				<a href="{% url 'eliminar_producto' id_prod=x.id   %}">Eliminar Producto</a>
+				<a href="{% url 'desactivar_producto' id_prod=x.id   %}">desactivar Producto</a>
+			{% endif %}
+		
 		</p>
 	{% endfor %}
 	

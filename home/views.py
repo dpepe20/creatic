@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect 
+from django.contrib.auth import login, logout, authenticate
 from .forms import *
 from .models import *
 # Create your views here.
@@ -33,17 +34,20 @@ def lista_productos_view (request):
 	return render(request, 'lista_productos.html', locals())
 
 def agregar_producto_view (request):
-	if request.method == 'POST':
-		formulario = agregar_producto_form(request.POST, request.FILES)	
-		if formulario.is_valid():
-			formulario.save()
-			return redirect('/lista_productos/')
+	if request.user.is_authenticated and request.user.is_superuser:		
+		if request.method == 'POST':
+			formulario = agregar_producto_form(request.POST, request.FILES)	
+			if formulario.is_valid():
+				formulario.save()
+				return redirect('/lista_productos/')
+			else:
+				msj = "hay datos no validos"	 
 		else:
-			msj = "hay datos no validos"	 
+			formulario = agregar_producto_form()
+		return render(request, 'agregar_producto.html', locals())
 	else:
-		formulario = agregar_producto_form()
-	return render(request, 'agregar_producto.html', locals())
-	
+		return redirect('/lista_productos/')
+		
 def ver_producto_view(request, id_prod):
 	try:
 		obj = Producto.objects.get(id = id_prod)
@@ -66,8 +70,29 @@ def eliminar_producto_view (request, id_prod):
 	obj = Producto.objects.get(id = id_prod)
 	obj.delete()
 	return redirect('/lista_productos/')
+
 def desactivar_producto_view (request,id_prod):
 	obj = Producto.objects.get(id = id_prod)
 	obj.status = False
 	obj.save()
 	return redirect('/lista_productos/')
+
+def login_view (request):
+	if request.method == 'POST':
+		formulario = login_form(request.POST)
+		if formulario.is_valid():
+			user = formulario.cleaned_data['usuario']
+			cla = formulario.cleaned_data['clave']
+			usuario = authenticate(username = user, password = cla)
+			if usuario is not None and usuario.is_active:
+				login(request, usuario)
+				return redirect('/lista_productos/') 
+			else:
+				msj = 'no se pudo iniciar sesion'	
+	formulario = login_form()
+	return render(request, 'login.html', locals())
+
+def logout_view (request):
+	logout(request)
+	return redirect('/login/')
+

@@ -11,4 +11,7 @@ class agregar_producto_form (forms.ModelForm):
 		model = Producto 
 		fields = '__all__'
 
-#https://goo.gl/gWmNWa
+class login_form (forms.Form):
+	usuario = forms.CharField(widget=forms.TextInput())
+	clave 	= forms.CharField(widget=forms.PasswordInput(render_value=False))
+	

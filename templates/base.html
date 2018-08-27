@@ -20,6 +20,14 @@
 					<a href="{% url 'contacto' %}" class="nav-link" >Contacto</a>
 				</li>
 				<li class="nav-item"><a href="/quienes_somos" class="nav-link" >Quienes Somos</a></li>
+				<li><a href="{% url 'lista_productos' %}"> Productos </a></li>
+				{% if request.user.is_authenticated %}
+					<li><a href="{% url 'logout' %}">Logout</a></li>
+				{% else %}
+					<li><a href="{% url 'login' %}">Login</a></li>
+				{% endif %}
+				
+			
 			</ul>
 	</nav>
 
