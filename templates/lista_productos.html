@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block titulo %}
+	
+{% endblock %}
+
+{% block contenido %}
+	<h1>lista de Productos</h1>
+
+	<a href="{% url 'agregar_producto' %}">Agregar producto</a>
+	{% for x in lista %}
+		<p>
+			{{ forloop.counter }}
+			{{ x.id }}
+			{{ x.nombre|upper }}
+			{{ x.precio }}
+			{{ x.marca }}
+			{% if x.foto %}
+				<img src="/media/{{ x.foto }}" width="60px">
+			{% endif %}
+			<a href="{% url 'ver_producto' id_prod=x.id   %}">Ver Producto</a>
+			<a href="{% url 'editar_producto' id_prod=x.id   %}">Editar Producto</a>
+			<a href="{% url 'eliminar_producto' id_prod=x.id   %}">Eliminar Producto</a>
+			<a href="{% url 'desactivar_producto' id_prod=x.id   %}">desactivar Producto</a>
+		</p>
+	{% endfor %}
+	
+{% endblock %}

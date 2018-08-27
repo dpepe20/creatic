@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+	{% load static %}
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+	<title>
+		{% block titulo %}	
+		{% endblock %}		
+	</title>
+
+</head>
+<body>
+	<nav class="navbar navbar-light bg-light">
+			<ul class="navbar-nav mr-auto">
+				<li class="nav-item"><a href="" class="nav-link" >Inicio</a></li>
+				<li class="nav-item">
+					<a href="{% url 'contacto' %}" class="nav-link" >Contacto</a>
+				</li>
+				<li class="nav-item"><a href="/quienes_somos" class="nav-link" >Quienes Somos</a></li>
+			</ul>
+	</nav>
+
+	{% block contenido %}
+	{% endblock %}	
+	<script src="/static/js/bootstrap.min.js"></script>
+
+</body>
+</html>
