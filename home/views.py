@@ -4,6 +4,9 @@ from .forms import *
 from .models import *
 # Create your views here.
 
+def inicio_view (request):
+	return render(request, 'inicio.html', locals())
+	
 def quienes_somos_view(request):
 	nombre = [12,3,45,67,89,436,51]
 	#return render(request, 'quienes_somos.html', {'n':nombre})
@@ -34,6 +37,7 @@ def lista_productos_view (request):
 	return render(request, 'lista_productos.html', locals())
 
 def agregar_producto_view (request):
+	accion = 'Agregar'
 	if request.user.is_authenticated and request.user.is_superuser:		
 		if request.method == 'POST':
 			formulario = agregar_producto_form(request.POST, request.FILES)	
@@ -57,6 +61,7 @@ def ver_producto_view(request, id_prod):
 	return render(request, 'ver_producto.html', locals())
 
 def editar_producto_view(request, id_prod):
+	accion = 'Editar'
 	obj = Producto.objects.get(id = id_prod)
 	if request.method == 'POST':
 		formulario = agregar_producto_form(request.POST, request.FILES, instance=obj)
@@ -88,11 +93,40 @@ def login_view (request):
 				login(request, usuario)
 				return redirect('/lista_productos/') 
 			else:
-				msj = 'no se pudo iniciar sesion'	
+				msj = 'usuario o clave incorrectos'	
 	formulario = login_form()
 	return render(request, 'login.html', locals())
 
 def logout_view (request):
 	logout(request)
 	return redirect('/login/')
+
+def register_view (request):
+	formulario = register_form()
+	usu = ""
+	cor = ""
+	cla_1 = ""
+	cla_2 =""
+	if request.method=='POST':
+		formulario = register_form(request.POST)
+		if formulario.is_valid():
+			usu   = formulario.cleaned_data['usuario']
+			cor   = formulario.cleaned_data['correo']
+			cla_1 = formulario.cleaned_data['clave_1']
+			cla_2 = formulario.cleaned_data['clave_2']
+			u = User.objects.create_user(username = usu, email=cor, password=cla_1)
+			u.save()
+			return redirect ('/login/')
+		else:
+			msj = 'no se pudo crear el usuario'			
+	else:		
+		return render(request, 'register.html', locals())
+	return render(request, 'register.html', locals())
+
+from django.http import HttpResponse 
+from django.core import serializers 
+
+def servicio_web_view (request):
+	data = serializers.serialize('xml', Producto.objects.all())
+	return HttpResponse(data, content_type = 'application/xml' )
 
