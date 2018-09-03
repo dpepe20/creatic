@@ -25,7 +25,7 @@ SECRET_KEY = '(u2j$4a(4lpio$%x195mx0#1ux0y3x=a&hzbvlfabeo$mbf5b3'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['demotienda.herokuapp.com']
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -80,14 +80,14 @@ WSGI_APPLICATION = 'tienda.wsgi.application'
 
 DATABASES = {
     'default': {
-        # 'ENGINE': 'django.db.backends.sqlite3',
-        # 'NAME': 'db.sqlite3',
-         'ENGINE': 'django.db.backends.postgresql',
-         'NAME': 'd80vmn3cf5vpq',
-         'USER': 'uehypveuwesfmc',
-         'PASSWORD': '090bf6b55d31e6a6d06fe45968c20604950f9ed18017d84ffb8369daf003ab28',
-         'HOST': 'ec2-50-16-196-138.compute-1.amazonaws.com',
-         'PORT': '5432',
+         'ENGINE': 'django.db.backends.sqlite3',
+         'NAME': 'db.sqlite3',
+         # 'ENGINE': 'django.db.backends.postgresql',
+         # 'NAME': 'd80vmn3cf5vpq',
+         # 'USER': 'uehypveuwesfmc',
+         # 'PASSWORD': '090bf6b55d31e6a6d06fe45968c20604950f9ed18017d84ffb8369daf003ab28',
+         # 'HOST': 'ec2-50-16-196-138.compute-1.amazonaws.com',
+         # 'PORT': '5432',
     }
 }
 
@@ -129,10 +129,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 STATIC_URL = '/static/'
-# STATICFILES_DIRS = [
-#     os.path.join(BASE_DIR, "static"),
-# ]
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATICFILES_DIRS = [
+     os.path.join(BASE_DIR, "static"),
+]
+#STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = 'media'

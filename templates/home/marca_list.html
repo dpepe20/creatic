@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block titulo %}
+	
+{% endblock %}
+
+{% block contenido %}
+	<h1>lista de Marcas</h1>
+	{% if request.user.is_authenticated and request.user.is_superuser %}
+		<div class="">
+			<a class="btn btn-outline-primary" href="{% url 'agregar_marca' %}"> <div class="fas fa-plus"></div> Agregar Marca</a>		
+		</div>	
+	{% endif %}
+	<br>
+	<div class="">
+			
+		<table class="table table-hover">
+			<thead>
+				<tr>
+					<th scope="col">#</th>
+					<th scope="col">id</th>
+					<th scope="col">Nombre</th>
+					<th scope="col">Acciones</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for x in marca_list|dictsort:'id' reversed %}
+					<tr>
+						<th scope="row">{{ forloop.counter }}</th>
+						<td>{{ x.id }}</td>
+						<td>{{ x.nombre }}</td>
+						<td>
+							<a href="{% url 'ver_marca' pk=x.id   %}"><div class="fas fa-search" ></div></a>
+							{% if request.user.is_authenticated and request.user.is_superuser %}
+								<a href="{% url 'editar_marca' pk=x.id   %}"><div class="fas fa-edit" ></div></a>
+								<a href="{% url 'eliminar_marca' pk=x.id   %}"><div class="fas fa-trash" ></div></a>
+							{% endif %}
+						</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+	
+{% endblock %}

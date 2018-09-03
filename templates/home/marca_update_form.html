@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block titulo %}
+	Actualizar Marca
+{% endblock titulo %}
+
+{% block contenido %}
+	<h1>Actualizar Marca {{ object.nombre }}</h1>
+	{% if 'ok' in request.GET %}
+		<p style="color: green;">
+			Se guardaron los cambios satisfactoriamente <a href="{% url 'ver_marca' pk=object.id %}">Haz clic aqui para ver el resultado</a>
+		</p>
+	{% endif %}
+	<div class="row justify-content-center">	
+		<form method='post'>
+			{% csrf_token %}
+			{{ form }}
+			<input type="submit" value="Actualizar">
+		</form>
+	</div>
+{% endblock contenido %}

@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block titulo %}
+	
+{% endblock titulo %}
+
+{% block contenido %}
+	<h1>Nueva Marca</h1>
+	<form method='post'>
+		{% csrf_token %}
+		{{ form }}
+		<input type="submit" value="Guardar">
+	</form>
+{% endblock contenido %}

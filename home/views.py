@@ -130,3 +130,45 @@ def servicio_web_view (request):
 	data = serializers.serialize('xml', Producto.objects.all())
 	return HttpResponse(data, content_type = 'application/xml' )
 
+'''
+CBV Vistas Basdas en Clases
+'''
+
+from django.views.generic.base import TemplateView
+from django.views.generic.edit import CreateView, DeleteView, UpdateView
+from django.views.generic.list import ListView
+from django.views.generic.detail import DetailView
+from django.urls import reverse_lazy
+
+class about_view (TemplateView):
+	template_name = "about.html"
+	
+	def get_context_data(self, **kwargs):
+		context = super().get_context_data(**kwargs)
+		context['lista_productos'] = Producto.objects.all().count()
+		return context	
+
+class listar_marca_view (ListView):
+	model = Marca 
+
+class ver_marca_view (DetailView):
+	model = Marca
+	success_url = reverse_lazy('listar_marca')
+
+class agregar_marca_view (CreateView):
+	model = Marca
+	fields = ['nombre']
+	success_url = reverse_lazy('listar_marca')
+
+class editar_marca_view (UpdateView):
+	model = Marca
+	fields = ['nombre']
+	template_name_suffix = '_update_form'
+	#success_url = reverse_lazy('listar_marca')
+
+	def get_success_url (self, *args, **kwargs):
+		return reverse_lazy('editar_marca', args=[self.object.id]) + '?ok'
+
+class eliminar_marca_view (DeleteView):
+	model = Marca 
+	success_url = reverse_lazy('listar_marca')
