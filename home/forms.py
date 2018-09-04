@@ -3,14 +3,21 @@ from .models import *
 from django.contrib.auth.models import User
 
 class contacto_form (forms.Form):
-	correo = forms.EmailField(widget=forms.TextInput())
+	correo = forms.EmailField(widget=forms.TextInput(attrs={'class':'form-control'}))
 	asunto = forms.CharField(widget=forms.TextInput())
 	texto  = forms.CharField(widget=forms.Textarea())
 
 class agregar_producto_form (forms.ModelForm):
 	class Meta:
-		model = Producto 
+		model  = Producto 
 		fields = '__all__'
+		widgets= {
+			'nombre':forms.TextInput(attrs={'class':'form-control'}), 
+			'precio':forms.TextInput(attrs={'class':'form-control'}), 
+		}
+		labels = {
+			'status':'Disponible', 
+		}
 
 class login_form (forms.Form):
 	usuario = forms.CharField(widget=forms.TextInput())

@@ -7,4 +7,10 @@
 {% block contenido %}
 	<h2>Bienvenidos a la tienda  del Cluster Creatic</h2>
 	<h3>para  ver los  productos   de clic  <a href="{% url 'lista_productos' %}"> aqui </a></h3>
+
+
 {% endblock contenido %}
+
+{% block footer %}
+	{{ empresa }}
+{% endblock footer %}

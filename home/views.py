@@ -2,16 +2,20 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login, logout, authenticate
 from .forms import *
 from .models import *
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 def inicio_view (request):
+	empresa = 'Cluster Creatic 2018'
 	return render(request, 'inicio.html', locals())
-	
+
+@login_required(login_url='/login/')	
 def quienes_somos_view(request):
 	nombre = [12,3,45,67,89,436,51]
 	#return render(request, 'quienes_somos.html', {'n':nombre})
 	return render(request, 'quienes_somos.html', locals())
 
+@login_required(login_url='/login/')	
 def contacto_view(request):
 	email=""
 	subject=""
@@ -149,7 +153,9 @@ class about_view (TemplateView):
 		return context	
 
 class listar_marca_view (ListView):
-	model = Marca 
+	model = Marca
+	queryset = Marca.objects.filter(nombre__icontains='a')
+
 
 class ver_marca_view (DetailView):
 	model = Marca
@@ -164,7 +170,6 @@ class editar_marca_view (UpdateView):
 	model = Marca
 	fields = ['nombre']
 	template_name_suffix = '_update_form'
-	#success_url = reverse_lazy('listar_marca')
 
 	def get_success_url (self, *args, **kwargs):
 		return reverse_lazy('editar_marca', args=[self.object.id]) + '?ok'
