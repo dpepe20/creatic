@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User 
 # Create your models here.
 class Marca (models.Model):
 	nombre 	= models.CharField(max_length=100)
@@ -23,3 +24,12 @@ class Producto (models.Model):
 
 	def __str__(self):
 		return self.nombre + ' ' +str(self.id)
+
+
+class Perfil (models.Model):
+	foto 			= models.ImageField(upload_to='perfiles', null=True, blank=True)
+	identificacion	= models.CharField(max_length = 100)
+	edad			= models.CharField(max_length = 100)
+	user 			= models.OneToOneField(User, on_delete=models.CASCADE)
+	def __str__ (self):
+		return self.identificacion

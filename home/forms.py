@@ -52,3 +52,9 @@ class register_form(forms.Form):
 			pass
 		else:
 			raise forms.ValidationError('las Claves no coinciden')
+
+class perfil_form(forms.ModelForm):
+	class Meta:
+		model = Perfil 
+		fields = ['foto', 'identificacion', 'edad']
+		exclude = ['user',]

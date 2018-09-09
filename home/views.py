@@ -177,3 +177,27 @@ class editar_marca_view (UpdateView):
 class eliminar_marca_view (DeleteView):
 	model = Marca 
 	success_url = reverse_lazy('listar_marca')
+
+
+def nuevo_perfil_view (request):
+	form_1 = register_form()
+	form_2 = perfil_form()
+	if request.method=='POST':
+		form_1 = register_form(request.POST)
+		form_2 = perfil_form(request.POST, request.FILES)
+		if form_1.is_valid() and form_2.is_valid():
+			usuario 	= form_1.cleaned_data['usuario']
+			correo 		= form_1.cleaned_data['correo']
+			password_1 	= form_1.cleaned_data['clave_1']
+			password_2 	= form_1.cleaned_data['clave_2']
+			u = User.objects.create_user(username=usuario, email=correo, password=password_1)
+			u.save()
+			
+			y = form_2.save(commit=False)
+			y.user= u
+			y.save()
+			msg = "gracias por registrarse..."
+			return redirect('/login/')
+
+	return render(request,'crear_perfil.html', locals())
+

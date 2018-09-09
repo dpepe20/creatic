@@ -15,10 +15,13 @@ urlpatterns = [
 	path('register/', register_view, name='register'),
 	path('servicio_web/', servicio_web_view, name='servicio_web'),
 
+	path('nuevo_perfil/', nuevo_perfil_view, name='nuevo_perfil'),
+	
+	
 	path('about/', about_view.as_view(), name='about'),
-	path('agregar_marca/', agregar_marca_view.as_view(), name='agregar_marca'),
 	path('listar_marca/', listar_marca_view.as_view(), name='listar_marca'),
 	path('ver_marca/<int:pk>/', ver_marca_view.as_view(), name='ver_marca'),
+	path('agregar_marca/', agregar_marca_view.as_view(), name='agregar_marca'),
 	path('editar_marca/<int:pk>/', editar_marca_view.as_view(), name='editar_marca'),
 	path('eliminar_marca/<int:pk>/', eliminar_marca_view.as_view(), name='eliminar_marca'),
 
